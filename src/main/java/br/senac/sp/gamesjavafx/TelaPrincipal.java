@@ -1,0 +1,95 @@
+package br.senac.sp.gamesjavafx;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
+public class TelaPrincipal extends Application {
+
+    private static final String COR_PADRAO ="-fx-background-color: #403d93; -fx-text-fill: #ffffff;-fx-alignment: center;-fx-cursor: hand";
+    private static final String COR_HOVER ="-fx-background-color: #0aaf98; -fx-text-fill: #ffffff;-fx-alignment: center;-fx-cursor: hand";
+
+
+    @Override
+    public void start(Stage stage) throws Exception {
+
+        Image iconeTela = new Image(getClass().getResourceAsStream("/imagens/ghost.png"));
+
+        BorderPane raiz = new BorderPane();
+
+        VBox painelLateral = new VBox();
+        painelLateral.setSpacing(5);
+        painelLateral.setPrefWidth(150);
+        painelLateral.setStyle("-fx-background-color:#403d93");
+        painelLateral.setPadding(new Insets(10));
+
+        Button btnJogos = criarBotaoMenu("Jogos");
+        Button btnPlataformas = criarBotaoMenu("Plataformas");
+        Button btnEstudios = criarBotaoMenu("Estudios");
+        Button btnHome = criarBotaoMenu("Home");
+
+        aplicarEfeitoHover(btnJogos,btnHome,btnEstudios,btnPlataformas);
+
+    painelLateral.getChildren().addAll(
+            btnHome,
+            btnJogos,
+            btnPlataformas,
+            btnEstudios
+    );
+
+//        paineilLateral.getChildren().add(btnJogos);
+//        paineilLateral.getChildren().add(btnPlataformas);
+//        paineilLateral.getChildren().add(btnEstudios);
+//        paineilLateral.getChildren().add(btnHome);
+
+        raiz.setLeft(painelLateral);
+        raiz.setStyle("-fx-background-color: #ffffff");
+
+        Scene cena = new Scene(raiz, 900,600);
+        stage.setScene(cena);
+        stage.setTitle("Sistema de Gestão de Jogos V1.0");
+        stage.setResizable(false);
+       // stage.setMaximized(true);
+        stage.getIcons().add(iconeTela);
+        stage.show();
+    }
+
+    private Button criarBotaoMenu(String textoDoBotao){
+        Button button =new Button(textoDoBotao);
+
+        button.setPadding(new Insets(10));
+
+        button.setPrefWidth(Double.MAX_VALUE);
+
+       // button.setStyle("-fx-background-color: #1b3f55; -fx-text-fill: #ffffff;-fx-alignment: center;-fx-cursor: hand");
+        return button;
+    }
+
+    private void aplicarEfeitoHover(Button... botoes){
+        for(Button button: botoes){
+
+            button.setStyle(COR_PADRAO);
+
+
+            //Ao passar no botão
+            button.setOnMouseEntered(event -> {
+                button.setStyle(COR_HOVER);
+
+            });
+            //Ao sair no botão
+            button.setOnMouseExited(event -> {
+                button.setStyle(COR_PADRAO );
+            });
+        }
+
+    }
+
+
+}
