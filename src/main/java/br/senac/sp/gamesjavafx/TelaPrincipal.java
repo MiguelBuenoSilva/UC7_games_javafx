@@ -1,5 +1,6 @@
 package br.senac.sp.gamesjavafx;
 
+import br.senac.sp.gamesjavafx.ui.home.PainelHome;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -13,7 +14,7 @@ import java.io.IOException;
 
 public class TelaPrincipal extends Application {
 
-    private static final String COR_PADRAO ="-fx-background-color: #403d93; -fx-text-fill: #ffffff;-fx-alignment: center;-fx-cursor: hand";
+    private static final String COR_PADRAO ="-fx-background-color: #2e2b68; -fx-text-fill: #ffffff;-fx-alignment: center;-fx-cursor: hand";
     private static final String COR_HOVER ="-fx-background-color: #0aaf98; -fx-text-fill: #ffffff;-fx-alignment: center;-fx-cursor: hand";
 
 
@@ -52,10 +53,14 @@ public class TelaPrincipal extends Application {
         raiz.setLeft(painelLateral);
         raiz.setStyle("-fx-background-color: #ffffff");
 
+        PainelHome painelHome = new PainelHome();
+
+        raiz.setCenter(painelHome.criarPainelHome());
+
         Scene cena = new Scene(raiz, 900,600);
         stage.setScene(cena);
         stage.setTitle("Sistema de Gestão de Jogos V1.0");
-        stage.setResizable(false);
+       // stage.setResizable(false);
        // stage.setMaximized(true);
         stage.getIcons().add(iconeTela);
         stage.show();
