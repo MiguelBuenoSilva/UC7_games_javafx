@@ -1,6 +1,7 @@
 package br.senac.sp.gamesjavafx;
 
 import br.senac.sp.gamesjavafx.ui.home.PainelHome;
+import br.senac.sp.gamesjavafx.ui.jogos.PainelJogos;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -21,7 +22,7 @@ public class TelaPrincipal extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Image iconeTela = new Image(getClass().getResourceAsStream("/imagens/ghost.png"));
+        Image iconeTela = new Image(getClass().getResourceAsStream("/imagens/games.png"));
 
         BorderPane raiz = new BorderPane();
 
@@ -32,9 +33,18 @@ public class TelaPrincipal extends Application {
         painelLateral.setPadding(new Insets(10));
 
         Button btnJogos = criarBotaoMenu("Jogos");
+        btnJogos.setOnAction(clique ->{
+            PainelJogos painelJogos = new PainelJogos();
+            raiz.setCenter(painelJogos.criarPainelJogos());
+        });
+
         Button btnPlataformas = criarBotaoMenu("Plataformas");
         Button btnEstudios = criarBotaoMenu("Estudios");
         Button btnHome = criarBotaoMenu("Home");
+        btnHome.setOnAction(clique ->{
+            PainelHome painelHome = new PainelHome();
+            raiz.setCenter(painelHome.criarPainelHome());
+        });
 
         aplicarEfeitoHover(btnJogos,btnHome,btnEstudios,btnPlataformas);
 
