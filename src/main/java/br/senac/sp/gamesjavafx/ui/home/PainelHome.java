@@ -46,7 +46,7 @@ public class PainelHome {
         //Criar painel de contatos
 
         VBox painelContatos = new VBox(5);
-        painelContatos.setStyle("-fx-background-color: #9b9ef3;-fx-border-width: 3;-fx-border-color: red; -fx-border-radius: 32;-fx-background-radius: 32");
+        painelContatos.setStyle("-fx-background-color: #9b9ef3;-fx-border-width: 3;-fx-border-color: #130337; -fx-border-radius: 32;-fx-background-radius: 32");
         painelContatos.setMaxWidth(600);
         painelContatos.setPadding(new Insets(20));
        VBox.setMargin(painelContatos,new Insets(30,10,30,10));
