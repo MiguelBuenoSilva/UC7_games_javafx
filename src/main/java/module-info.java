@@ -6,5 +6,6 @@ module br.senac.sp.gamesjavafx {
     requires java.desktop;
 
     opens br.senac.sp.gamesjavafx to javafx.fxml;
+    opens br.senac.sp.gamesjavafx.model to javafx.base;
     exports br.senac.sp.gamesjavafx;
 }
