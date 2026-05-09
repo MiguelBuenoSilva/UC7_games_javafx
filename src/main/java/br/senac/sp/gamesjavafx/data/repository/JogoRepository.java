@@ -6,14 +6,16 @@ import javafx.collections.ObservableList;
 
 public class JogoRepository {
 
-    public ObservableList<Jogo> getJogos (){
+    public ObservableList<Jogo> getJogos() {
 
         ObservableList<Jogo> listaJogos = FXCollections
-                .observableArrayList();
-            new Jogo(1,"Mortal Kombat X","Desktop,Ps4");
-            new Jogo(2,"Mortal Kombat X","Desktop,Ps4");
-            new Jogo(3,"Mortal Kombat X","Desktop,Ps4");
-            new Jogo(4,"Mortal Kombat X","Desktop,Ps4");
+                .observableArrayList(
+                        new Jogo(1, "Mortal Kombat X", "PC"),
+                        new Jogo(2, "Teken", "Mega Drive"),
+                        new Jogo(3, "FIFA", "One x"),
+                        new Jogo(4, "PES", "PS5")
+        );
+
 
         return listaJogos;
     }
