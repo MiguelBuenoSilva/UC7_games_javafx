@@ -1,15 +1,25 @@
 package br.senac.sp.gamesjavafx.ui.jogos;
 
+import br.senac.sp.gamesjavafx.data.repository.JogoRepository;
 import br.senac.sp.gamesjavafx.model.Jogo;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import java.time.LocalDate;
 
 public class PainelJogos {
+    private Stage stage;
+
+    public PainelJogos(Stage stage) {
+        this.stage = stage;
+    }
 
     public VBox criarPainelJogos() {
 
@@ -30,28 +40,87 @@ public class PainelJogos {
 
         //Criar colunas da tabela
         TableColumn<Jogo, Integer> colunaId = new TableColumn<>("ID");
-        colunaId.setCellValueFactory( new PropertyValueFactory<>("id"));
-        colunaId.setPrefWidth(50);
+        colunaId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colunaId.setPrefWidth(40);
 
         TableColumn<Jogo, String> colunaTitulo = new TableColumn<>("TÍTULO");
         colunaTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
-        colunaTitulo.setPrefWidth(400);
+        colunaTitulo.setPrefWidth(235);
 
         TableColumn<Jogo, String> colunaPlataforma = new TableColumn<>("PLATAFORMA");
         colunaPlataforma.setCellValueFactory(new PropertyValueFactory<>("plataforma"));
-        colunaPlataforma.setPrefWidth(200);
+        colunaPlataforma.setPrefWidth(100);
 
+        TableColumn<Jogo, String> colunaCategoria = new TableColumn<>("CATEGORIA");
+        colunaCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
+        colunaCategoria.setPrefWidth(100);
 
-        // Adicionar as colunas na tabela
-        tabelaJogos.getColumns().addAll(colunaId,colunaTitulo,colunaPlataforma);
+        TableColumn<Jogo, String> colunaEstudio = new TableColumn<>("ESTÚDIO");
+        colunaEstudio.setCellValueFactory(new PropertyValueFactory<>("estudio"));
+        colunaEstudio.setPrefWidth(100);
+
+        TableColumn<Jogo, Double> colunaPreco = new TableColumn<>("PREÇO");
+        colunaPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
+        colunaPreco.setPrefWidth(70);
+
+        TableColumn<Jogo, LocalDate> colunaDataLancamento = new TableColumn<>("LANÇAMENTO");
+        colunaDataLancamento.setCellValueFactory(new PropertyValueFactory<>("dataLancamento"));
+        colunaDataLancamento.setPrefWidth(100);
+
+        TableColumn<Jogo, Boolean> colunaFinalizado = new TableColumn<>("FINALIZADO");
+        colunaFinalizado.setCellValueFactory(new PropertyValueFactory<>("finalizado"));
+        colunaFinalizado.setPrefWidth(80);
+
+        // Obter os dados que serão exibidos
+        JogoRepository repository = new JogoRepository();
+
+        // Adicionar as colunas na tabela ANTES de setar os itens (boa prática)
+        tabelaJogos.getColumns().addAll(colunaId, colunaTitulo, colunaPlataforma , colunaCategoria, colunaEstudio, colunaPreco, colunaDataLancamento, colunaFinalizado);
+
+        // Adicionando a lista de jogos na tabela
+        tabelaJogos.setItems(repository.getJogos());
+
+        // Criar botões de ações
+        HBox painelBotoes = new HBox(10);
+
+        Button botaoAdicionar = criarBotao("Adicionar", "/imagens/icons/plus-add.png");
+        botaoAdicionar.setOnAction(e -> {
+            TelaJogo telaJogo = new TelaJogo();
+            telaJogo.criarTela(stage);
+        });
+
+        Button botaoVisualizar = criarBotao("Visualizar", "/imagens/icons/binoculars.png");
+
+        Button botaoEditar = criarBotao("Editar", "/imagens/icons/pen.png");
+
+        Button botaoDeletar = criarBotao("Deletar", "/imagens/icons/letter-x.png");
+
+        painelBotoes.setAlignment(Pos.BOTTOM_RIGHT);
+
+        painelBotoes.getChildren().addAll(botaoAdicionar, botaoVisualizar, botaoEditar, botaoDeletar);
 
 
         //Adicionar o label no painel
-        painelJogos.getChildren().addAll(lblTitulo, linha,tabelaJogos);
+        painelJogos.getChildren().addAll(lblTitulo, linha, tabelaJogos, painelBotoes);
 
 
         return painelJogos;
     }
 
+    private Button criarBotao(String textoBotao, String urlImagem) {
+        Image image = new Image(getClass().getResourceAsStream(urlImagem));
+        ImageView imageView = new ImageView(image);
 
+        imageView.setFitWidth(20);
+        imageView.setFitHeight(20);
+        Button button = new Button();
+        button.setPrefWidth(110);
+        button.setPrefHeight(50);
+        button.setText(textoBotao);
+        button.setGraphic(imageView);
+
+        return button;
+
+
+    }
 }
