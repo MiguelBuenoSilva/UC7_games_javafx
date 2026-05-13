@@ -29,11 +29,22 @@
             <scope>compile</scope>
         </dependency>
 
+
+        <!-- Source: https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.53.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>21.0.6</version>
         </dependency>
+
 
         <dependency>
             <groupId>org.controlsfx</groupId>
@@ -41,12 +52,14 @@
             <version>11.2.1</version>
         </dependency>
 
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
