@@ -1,5 +1,7 @@
 package br.senac.sp.gamesjavafx.ui.jogos;
 
+import br.senac.sp.gamesjavafx.data.repository.JogoRepository;
+import br.senac.sp.gamesjavafx.model.Jogo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -117,6 +119,8 @@ public class TelaJogo {
         Label lblDatalancamento = new Label("Data de Lançamento: ");
         dpDataLacamento = new DatePicker(LocalDate.now());
 
+
+
         cbFinalizado = new CheckBox("Finalizado");
 
 
@@ -159,6 +163,22 @@ public class TelaJogo {
         ImageView ivSalvar = new ImageView(imgSalvar);
         btnSalvar.setGraphic(ivSalvar);
         btnSalvar.setTooltip(new Tooltip("Salvar dados do jogo"));
+
+        btnSalvar.setOnAction(evento ->{
+            Jogo jogo = new Jogo();
+            jogo.setTitulo(tfTitulo.getText());
+            jogo.setPlataforma(comboPlataforma.getValue());
+            jogo.setEstudio(comboEstudio.getValue());
+            jogo.setDataLancamento(dpDataLacamento.getValue());
+            jogo.setCategoria("Testando Categoria");
+            jogo.setFinalizado(cbFinalizado.isSelected());
+            jogo.setPreco(Double.parseDouble(tfValor.getText()));
+
+            //Criar o repositorio para enviar o jogo
+            JogoRepository repository = new JogoRepository();
+            repository.salvar(jogo);
+
+        });
 
         Button btnCancelar = new Button();
         Image imgCancelar = new Image(getClass().getResourceAsStream("/imagens/icons/cancel.png"));

@@ -18,8 +18,11 @@ public class Jogo {
             this.id = id;
             this.titulo = titulo;
             this.plataforma = plataforma;
-
         }
+        
+        //Construtor Default/Padrão
+        public Jogo(){}
+        
 
 
     public int getId() {
@@ -86,4 +89,6 @@ public class Jogo {
     public void setFinalizado(boolean finalizado) {
         this.finalizado = finalizado;
     }
+
+
 }
