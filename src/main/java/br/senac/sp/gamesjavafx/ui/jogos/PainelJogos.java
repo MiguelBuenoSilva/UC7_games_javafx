@@ -87,6 +87,8 @@ public class PainelJogos {
         botaoAdicionar.setOnAction(e -> {
             TelaJogo telaJogo = new TelaJogo();
             telaJogo.criarTela(stage);
+            tabelaJogos.setItems(repository.getJogos());
+
         });
 
         Button botaoVisualizar = criarBotao("Visualizar", "/imagens/icons/binoculars.png");
