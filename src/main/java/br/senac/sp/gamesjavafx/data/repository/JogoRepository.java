@@ -46,6 +46,7 @@ public class JogoRepository {
                 listaJogos.add(jogo);
 
             }
+            ConexaoSQLite.fecharConexao();
             return listaJogos;
 
         } catch (SQLException e) {
@@ -75,10 +76,45 @@ public class JogoRepository {
             stm.setString(6, jogo.getDataLancamento().toString());
             stm.setInt(7, jogo.isFinalizado() ? 1 : 0);
             stm.executeUpdate();
+            ConexaoSQLite.fecharConexao();
         } catch (SQLException erro) {
             System.out.println("Ocorreu um erro na gravação.");
             erro.printStackTrace();
         }
 
+    }
+    // Contar a quantidade de jogos gravados
+    public int getTotalJogos(){
+        String sql = "SELECT COUNT(id) as total_games FROM tb_games";
+        try {
+            PreparedStatement stm =ConexaoSQLite.getConexao().prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            rs.next();
+            int total = rs.getInt("total_games");
+            ConexaoSQLite.fecharConexao();
+            return total;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int excluir (int id){
+        String sql = "DELETE FROM tb_games WHERE id = ?";
+
+        try {
+            PreparedStatement stm = ConexaoSQLite
+                    .getConexao().
+                    prepareStatement(sql);
+            stm.setInt(1,id);
+            int resultado = stm.executeUpdate();
+
+            ConexaoSQLite.fecharConexao();
+
+            return resultado;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }

@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.time.LocalDate;
 
 public class PainelJogos {
@@ -75,7 +76,7 @@ public class PainelJogos {
         JogoRepository repository = new JogoRepository();
 
         // Adicionar as colunas na tabela ANTES de setar os itens (boa prática)
-        tabelaJogos.getColumns().addAll(colunaId, colunaTitulo, colunaPlataforma , colunaCategoria, colunaEstudio, colunaPreco, colunaDataLancamento, colunaFinalizado);
+        tabelaJogos.getColumns().addAll(colunaId, colunaTitulo, colunaPlataforma, colunaCategoria, colunaEstudio, colunaPreco, colunaDataLancamento, colunaFinalizado);
 
         // Adicionando a lista de jogos na tabela
         tabelaJogos.setItems(repository.getJogos());
@@ -92,14 +93,25 @@ public class PainelJogos {
         });
 
         Button botaoVisualizar = criarBotao("Visualizar", "/imagens/icons/binoculars.png");
-
         Button botaoEditar = criarBotao("Editar", "/imagens/icons/pen.png");
 
-        Button botaoDeletar = criarBotao("Deletar", "/imagens/icons/letter-x.png");
+        Button botaoExcluir = criarBotao("Excluir", "/imagens/icons/letter-x.png");
+        botaoExcluir.setOnAction(event -> {
+            Jogo jogoExcluir = tabelaJogos.getSelectionModel().getSelectedItem();
+            int resultado = repository.excluir(jogoExcluir.getId());
+
+            if (resultado > 0) {
+
+                JOptionPane.showMessageDialog(null, "Jogo excluído com sucesso!");
+                tabelaJogos.setItems(repository.getJogos());
+
+            }
+
+        });
 
         painelBotoes.setAlignment(Pos.BOTTOM_RIGHT);
 
-        painelBotoes.getChildren().addAll(botaoAdicionar, botaoVisualizar, botaoEditar, botaoDeletar);
+        painelBotoes.getChildren().addAll(botaoAdicionar, botaoVisualizar, botaoEditar, botaoExcluir);
 
 
         //Adicionar o label no painel
