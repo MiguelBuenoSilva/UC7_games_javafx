@@ -119,16 +119,16 @@ public class JogoRepository {
     }
 
     public void editar(Jogo jogo) {
-        String sql ="\n" +
+        String sql =
                 "UPDATE tb_games SET" +
-                "titulo = ?" +
-                "plataforma = ?" +
-                "estudio = ?" +
-                "categoria = ?" +
-                "preco = ?" +
-                "data_lancamento = ?" +
+                " titulo = ?," +
+                "plataforma = ?," +
+                "estudio = ?," +
+                "categoria = ?," +
+                "preco = ?," +
+                "data_lancamento = ?," +
                 "finalizado = ?" +
-                "WHERE  id = ?;";
+                " WHERE  id = ?;";
 
         try {
             PreparedStatement stm = ConexaoSQLite.getConexao().prepareStatement(sql);
