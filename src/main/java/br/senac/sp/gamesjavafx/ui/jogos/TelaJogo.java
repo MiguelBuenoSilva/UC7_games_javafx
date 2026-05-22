@@ -25,14 +25,33 @@ import java.time.LocalDate;
 public class TelaJogo {
 
 
-    private TextField tfId;
-    private TextField tfTitulo;
-    private TextField tfValor;
-    private ComboBox<String> comboPlataforma;
-    private ComboBox<String> comboEstudio;
-    private TextField tfCategoria;
-    private DatePicker dpDataLacamento;
-    private CheckBox cbFinalizado;
+    private TextField tfId = new TextField();
+    private TextField tfTitulo = new TextField();
+    private TextField tfValor = new TextField();
+    private ComboBox<String> comboPlataforma = new ComboBox<>();
+    private ComboBox<String> comboEstudio = new ComboBox<>();
+    private TextField tfCategoria = new TextField();
+    private DatePicker dpDataLacamento = new DatePicker();
+    private CheckBox cbFinalizado = new CheckBox("Finalizado");
+
+
+    public TelaJogo(Jogo jogo) {
+
+        tfId.setText(String.valueOf(jogo.getId()));
+        tfTitulo.setText(jogo.getTitulo());
+        tfValor.setText(String.valueOf(jogo.getPreco()));
+        comboPlataforma.setValue(jogo.getPlataforma());
+        comboEstudio.setValue(jogo.getEstudio());
+        tfCategoria.setText(jogo.getCategoria());
+        dpDataLacamento.setValue(jogo.getDataLancamento());
+        cbFinalizado.setSelected(jogo.isFinalizado());
+
+
+    }
+
+    public TelaJogo() {
+    }
+
 
     public void criarTela(Stage stagePai) {
 
@@ -102,35 +121,29 @@ public class TelaJogo {
 
         // Criar os componentes que seram importados no grid
         Label lblId = new Label("ID:");
-        tfId = new TextField();
         tfId.setDisable(true);
 
         Label lblTitulo = new Label("Título: ");
-        tfTitulo = new TextField();
         tfTitulo.setPromptText("Ex: Mario");
 
         Label lblPlataforma = new Label("Plataformas: ");
-        comboPlataforma = new ComboBox<>(plataformas);
+        comboPlataforma.setItems(plataformas);
+
 
         Label lblEstudio = new Label("Estudios:");
-        comboEstudio = new ComboBox<>(estudios);
+        comboEstudio.setItems(estudios);
 
         Label lblCategoria = new Label("Categoria:");
-        tfCategoria = new TextField();
         tfCategoria.setPromptText("Ex: Aventura");
 
         Label lblValor = new Label("Valor: ");
-        tfValor = new TextField();
         tfValor.setPromptText("Ex.9.99");
 
         Label lblDatalancamento = new Label("Data de Lançamento: ");
         dpDataLacamento = new DatePicker(LocalDate.now());
 
 
-        cbFinalizado = new CheckBox("Finalizado");
-
-
-        // Add os componentes GRID
+        // Add os componentes no GRID
 
         gridFormulario.add(lblId, 0, 0);
         gridFormulario.add(tfId, 1, 0);
@@ -179,13 +192,19 @@ public class TelaJogo {
             jogo.setPlataforma(comboPlataforma.getValue());
             jogo.setEstudio(comboEstudio.getValue());
             jogo.setDataLancamento(dpDataLacamento.getValue());
-            jogo.setCategoria("Testando Categoria");
+            jogo.setCategoria(tfCategoria.getText());
             jogo.setFinalizado(cbFinalizado.isSelected());
             jogo.setPreco(Double.parseDouble(tfValor.getText()));
 
             //Criar o repositorio para enviar o jogo
             JogoRepository repository = new JogoRepository();
-            repository.salvar(jogo);
+
+            if (tfId.getText().equals("")){
+                repository.salvar(jogo);
+            }else {
+                jogo.setId(Integer.parseInt(tfId.getText()));
+                repository.editar(jogo);
+            }
 
 //            JOptionPane.showMessageDialog(
 //                    null,
@@ -193,7 +212,7 @@ public class TelaJogo {
 //                    "Erro",
 //                    JOptionPane.ERROR_MESSAGE
 //            );
-           int resposta = JOptionPane.showConfirmDialog(
+            int resposta = JOptionPane.showConfirmDialog(
                     null,
                     "Jogo cadastrado com sucesso!\nDeseja cadastrar outro jogo?",
                     "Cadastro",
@@ -201,7 +220,7 @@ public class TelaJogo {
 
             );
 
-            if (resposta != 0){
+            if (resposta != 0) {
                 stage.close();
             }
 
@@ -232,6 +251,6 @@ public class TelaJogo {
         dpDataLacamento.setValue(LocalDate.now());
         tfTitulo.requestFocus();
     }
-
 }
+
 

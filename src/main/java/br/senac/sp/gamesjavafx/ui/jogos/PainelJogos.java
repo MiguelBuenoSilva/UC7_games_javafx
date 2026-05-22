@@ -12,8 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class PainelJogos {
     private Stage stage;
@@ -92,26 +92,67 @@ public class PainelJogos {
 
         });
 
-        Button botaoVisualizar = criarBotao("Visualizar", "/imagens/icons/binoculars.png");
-        Button botaoEditar = criarBotao("Editar", "/imagens/icons/pen.png");
+        Button btnVisualizar = criarBotao("Visualizar", "/imagens/icons/binoculars.png");
+        btnVisualizar.setOnAction(event -> {
+            Jogo visualizarJogo = tabelaJogos.getSelectionModel().getSelectedItem();
+            TelaJogo telaJogo = new TelaJogo(visualizarJogo);
+            telaJogo.criarTela(stage);
+        });
 
-        Button botaoExcluir = criarBotao("Excluir", "/imagens/icons/letter-x.png");
-        botaoExcluir.setOnAction(event -> {
-            Jogo jogoExcluir = tabelaJogos.getSelectionModel().getSelectedItem();
-            int resultado = repository.excluir(jogoExcluir.getId());
-
-            if (resultado > 0) {
-
-                JOptionPane.showMessageDialog(null, "Jogo excluído com sucesso!");
-                tabelaJogos.setItems(repository.getJogos());
-
+        Button btnEditar = criarBotao("Editar", "/imagens/icons/pen.png");
+        btnEditar.setOnAction(event -> {
+            //Recuperar jogo que quero editar
+            Jogo editarJogo = tabelaJogos.getSelectionModel().getSelectedItem();
+            if (editarJogo == null){
+                Alert alertaJogoNaoSelecionado = new Alert(Alert.AlertType.WARNING);
+                alertaJogoNaoSelecionado.setTitle("Edição de Jogo");
+                alertaJogoNaoSelecionado.setHeaderText("Para editar o jogo você deve selecioná-lo na lista.");
+                alertaJogoNaoSelecionado.showAndWait();
+                return;
             }
+
+            TelaJogo telaJogo = new TelaJogo(editarJogo);
+            telaJogo.criarTela(stage);
+        });
+
+        Button btnExcluir = criarBotao("Excluir", "/imagens/icons/letter-x.png");
+        btnExcluir.setOnAction(event -> {
+
+            Jogo jogoExcluir = tabelaJogos.getSelectionModel().getSelectedItem();
+
+            if (jogoExcluir == null){
+                Alert alertaJogoNaoSelecionado = new Alert(Alert.AlertType.WARNING);
+                alertaJogoNaoSelecionado.setTitle("Exclusão de Jogo");
+                alertaJogoNaoSelecionado.setHeaderText("Para excluir o jogo você deve selecioná-lo na lista.");
+                alertaJogoNaoSelecionado.showAndWait();
+                return;
+            }
+
+            Alert confirmaExclusao = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmaExclusao.setTitle("Exclusão de Jogo");
+            confirmaExclusao.setHeaderText("Você está prestes a excluir um jogo.");
+            confirmaExclusao.setContentText("Tem certeza que deseja continuar?");
+
+            Optional<ButtonType> resposta = confirmaExclusao.showAndWait();
+            ButtonType botaoSelecionado = resposta.get();
+
+            if (botaoSelecionado == ButtonType.OK) {
+                repository.excluir(jogoExcluir.getId());
+                tabelaJogos.setItems(repository.getJogos());
+            }
+
+//            if (resultado > 0) {
+//
+//                JOptionPane.showMessageDialog(null, "Jogo excluído com sucesso!");
+//                tabelaJogos.setItems(repository.getJogos());
+//
+//            }
 
         });
 
         painelBotoes.setAlignment(Pos.BOTTOM_RIGHT);
 
-        painelBotoes.getChildren().addAll(botaoAdicionar, botaoVisualizar, botaoEditar, botaoExcluir);
+        painelBotoes.getChildren().addAll(botaoAdicionar, btnEditar,  btnVisualizar, btnExcluir);
 
 
         //Adicionar o label no painel
@@ -137,4 +178,5 @@ public class PainelJogos {
 
 
     }
+
 }
