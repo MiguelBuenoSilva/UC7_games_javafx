@@ -20,6 +20,7 @@ import javafx.scene.control.CheckBox;
 
 import javax.swing.*;
 import java.time.LocalDate;
+import java.util.Optional;
 
 
 public class TelaJogo {
@@ -30,7 +31,7 @@ public class TelaJogo {
     private TextField tfValor = new TextField();
     private ComboBox<String> comboPlataforma = new ComboBox<>();
     private ComboBox<String> comboEstudio = new ComboBox<>();
-    private TextField tfCategoria = new TextField();
+    private ComboBox<String> comboCategoria = new ComboBox<>();
     private DatePicker dpDataLacamento = new DatePicker();
     private CheckBox cbFinalizado = new CheckBox("Finalizado");
 
@@ -42,7 +43,7 @@ public class TelaJogo {
         tfValor.setText(String.valueOf(jogo.getPreco()));
         comboPlataforma.setValue(jogo.getPlataforma());
         comboEstudio.setValue(jogo.getEstudio());
-        tfCategoria.setText(jogo.getCategoria());
+        comboCategoria.setValue(jogo.getCategoria());
         dpDataLacamento.setValue(jogo.getDataLancamento());
         cbFinalizado.setSelected(jogo.isFinalizado());
 
@@ -103,11 +104,21 @@ public class TelaJogo {
 
     private VBox criarFormulario() {
         ObservableList<String> plataformas = FXCollections.observableArrayList(
-                "Super Nintendo", "Mega Drive", "PlayStation1", "PC", "Xbox"
+                "PlayStation 1", "PlayStation 2", "PlayStation 3", "PlayStation 4", "PlayStation 5", "Xbox 360",
+                "Xbox One", "Xbox Series X", "Xbox Series S", "Super Nintendo", "Nintendo 64", "Nintendo Switch",
+                "Master System", "Mega Drive", "PC"
         );
 
         ObservableList<String> estudios = FXCollections.observableArrayList(
-                "Capcom", "Activision", " Blizzard", "Bandai Namco", "Rockstar Games", "PlayStation Studios"
+                "Rockstar Games", "Naughty Dog", "Santa Monica Studio", "Insomniac Games", "Ubisoft", "Electronic Arts", "Activision", "Bethesda Game Studios",
+                "CD Projekt Red", "Square Enix", "Capcom", "Konami", "Bandai Namco", "343 Industries", "The Coalition", "Guerrilla Games", "FromSoftware",
+                "Epic Games", "Valve", "Nintendo"
+        );
+
+        ObservableList<String> categoria = FXCollections.observableArrayList(
+                "Ação", "Aventura", "RPG", "FPS", "Estratégia", "Simulação", "Esporte",
+                "Corrida", "Luta", "Plataforma", "Terror"
+
         );
 
         VBox formulario = new VBox();
@@ -134,7 +145,7 @@ public class TelaJogo {
         comboEstudio.setItems(estudios);
 
         Label lblCategoria = new Label("Categoria:");
-        tfCategoria.setPromptText("Ex: Aventura");
+        comboCategoria.setItems(categoria);
 
         Label lblValor = new Label("Valor: ");
         tfValor.setPromptText("Ex.9.99");
@@ -158,7 +169,7 @@ public class TelaJogo {
         gridFormulario.add(comboEstudio, 1, 3);
 
         gridFormulario.add(lblCategoria, 0, 4);
-        gridFormulario.add(tfCategoria, 1, 4);
+        gridFormulario.add(comboCategoria, 1, 4);
 
         gridFormulario.add(lblValor, 0, 5);
         gridFormulario.add(tfValor, 1, 5);
@@ -192,18 +203,55 @@ public class TelaJogo {
             jogo.setPlataforma(comboPlataforma.getValue());
             jogo.setEstudio(comboEstudio.getValue());
             jogo.setDataLancamento(dpDataLacamento.getValue());
-            jogo.setCategoria(tfCategoria.getText());
+            jogo.setCategoria(comboCategoria.getValue());
             jogo.setFinalizado(cbFinalizado.isSelected());
-            jogo.setPreco(Double.parseDouble(tfValor.getText()));
+
+            try {
+                jogo.setPreco(Double.parseDouble(tfValor.getText().replace(",",".")));
+            } catch (NumberFormatException error) {
+                Alert valorIncorreto = new Alert(Alert.AlertType.ERROR);
+                valorIncorreto.setTitle("Valor Incorreto");
+                valorIncorreto.setHeaderText("O valor digitado deve conter apenas números! \nUtilize ponto ou virgula como separador de decimal");
+                valorIncorreto.showAndWait();
+                tfValor.requestFocus();
+                return;
+            }
+
 
             //Criar o repositorio para enviar o jogo
             JogoRepository repository = new JogoRepository();
 
-            if (tfId.getText().equals("")){
+            if (tfId.getText().equals("")) {
                 repository.salvar(jogo);
-            }else {
+
+                //Mostra a mensagem do pós-salvar
+                Alert mensagemSalvar = new Alert(Alert.AlertType.CONFIRMATION);
+                mensagemSalvar.setTitle("Cadastro de jogo");
+                mensagemSalvar.setHeaderText("O jogo gravado com sucesso!");
+                mensagemSalvar.setContentText("Deseja cadastrar outro jogo?");
+
+                Optional<ButtonType> escolha = mensagemSalvar.showAndWait();
+
+                if (escolha.get() == ButtonType.OK) {
+                    limparCampos();
+                } else {
+                    stage.close();
+                }
+
+
+            } else {
                 jogo.setId(Integer.parseInt(tfId.getText()));
                 repository.editar(jogo);
+
+                //Mostra mensagem a pós-editar
+                Alert mensagemEditar = new Alert(Alert.AlertType.CONFIRMATION);
+                mensagemEditar.setTitle("Atualização de jogo");
+                mensagemEditar.setHeaderText("O jogo foi atualizado com sucesso!");
+
+                mensagemEditar.showAndWait();
+                stage.close();
+
+
             }
 
 //            JOptionPane.showMessageDialog(
@@ -212,21 +260,18 @@ public class TelaJogo {
 //                    "Erro",
 //                    JOptionPane.ERROR_MESSAGE
 //            );
-            int resposta = JOptionPane.showConfirmDialog(
-                    null,
-                    "Jogo cadastrado com sucesso!\nDeseja cadastrar outro jogo?",
-                    "Cadastro",
-                    JOptionPane.YES_NO_OPTION
 
-            );
-
-            if (resposta != 0) {
-                stage.close();
-            }
-
-            limparCampos();
-
-
+//            int resposta = JOptionPane.showConfirmDialog(
+//                    null,
+//                    "Jogo cadastrado com sucesso!\nDeseja cadastrar outro jogo?",
+//                    "Cadastro",
+//                    JOptionPane.YES_NO_OPTION
+//
+//            );
+//
+//            if (resposta != 0) {
+//                stage.close();
+//            }
         });
 
         Button btnCancelar = new Button();
@@ -243,7 +288,7 @@ public class TelaJogo {
     private void limparCampos() {
 
         tfTitulo.clear();
-        tfCategoria.clear();
+        comboPlataforma.setValue("");
         tfValor.clear();
         comboEstudio.setValue("");
         comboPlataforma.setValue("");

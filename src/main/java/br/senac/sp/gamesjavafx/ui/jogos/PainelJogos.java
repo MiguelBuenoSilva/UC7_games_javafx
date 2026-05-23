@@ -97,22 +97,18 @@ public class PainelJogos {
             Jogo visualizarJogo = tabelaJogos.getSelectionModel().getSelectedItem();
             TelaJogo telaJogo = new TelaJogo(visualizarJogo);
             telaJogo.criarTela(stage);
+
         });
 
         Button btnEditar = criarBotao("Editar", "/imagens/icons/pen.png");
         btnEditar.setOnAction(event -> {
+
             //Recuperar jogo que quero editar
             Jogo editarJogo = tabelaJogos.getSelectionModel().getSelectedItem();
-            if (editarJogo == null){
-                Alert alertaJogoNaoSelecionado = new Alert(Alert.AlertType.WARNING);
-                alertaJogoNaoSelecionado.setTitle("Edição de Jogo");
-                alertaJogoNaoSelecionado.setHeaderText("Para editar o jogo você deve selecioná-lo na lista.");
-                alertaJogoNaoSelecionado.showAndWait();
-                return;
-            }
-
             TelaJogo telaJogo = new TelaJogo(editarJogo);
             telaJogo.criarTela(stage);
+            tabelaJogos.setItems(repository.getJogos());
+
         });
 
         Button btnExcluir = criarBotao("Excluir", "/imagens/icons/letter-x.png");
