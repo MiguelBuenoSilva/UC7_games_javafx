@@ -1,7 +1,9 @@
 package br.senac.sp.gamesjavafx;
 
 import br.senac.sp.gamesjavafx.ui.home.PainelHome;
+import br.senac.sp.gamesjavafx.ui.jogos.PainelEstudios;
 import br.senac.sp.gamesjavafx.ui.jogos.PainelJogos;
+import br.senac.sp.gamesjavafx.ui.jogos.PainelPlataformas;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -10,8 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class TelaPrincipal extends Application {
 
@@ -39,7 +39,16 @@ public class TelaPrincipal extends Application {
         });
 
         Button btnPlataformas = criarBotaoMenu("Plataformas");
+            btnPlataformas.setOnAction(event -> {
+            PainelPlataformas painelPlataformas = new PainelPlataformas();
+            raiz.setCenter(painelPlataformas.criarPainelPlataforma());
+        });
         Button btnEstudios = criarBotaoMenu("Estudios");
+            btnEstudios.setOnAction(event -> {
+             PainelEstudios painelEstudios = new PainelEstudios();
+             raiz.setCenter(painelEstudios.criarPainelEstudio());
+            });
+
         Button btnHome = criarBotaoMenu("Home");
         btnHome.setOnAction(clique -> {
             PainelHome painelHome = new PainelHome();

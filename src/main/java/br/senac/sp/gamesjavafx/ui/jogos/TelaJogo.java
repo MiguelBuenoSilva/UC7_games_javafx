@@ -18,7 +18,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.CheckBox;
 
-import javax.swing.*;
 import java.time.LocalDate;
 import java.util.Optional;
 
