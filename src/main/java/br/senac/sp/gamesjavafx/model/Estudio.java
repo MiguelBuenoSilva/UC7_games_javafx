@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public class Estudio {
     private int id;
     private String  nomeFundador;
+    private String  nomeEstudio;
     private LocalDate anoFundacao;
     private  String paisOrigem;
 
@@ -41,4 +42,11 @@ public class Estudio {
         this.id = id;
     }
 
+    public String getNomeEstudio() {
+        return nomeEstudio;
+    }
+
+    public void setNomeEstudio(String nomeEstudio) {
+        this.nomeEstudio = nomeEstudio;
+    }
 }

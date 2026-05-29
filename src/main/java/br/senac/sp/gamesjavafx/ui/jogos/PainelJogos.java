@@ -105,9 +105,20 @@ public class PainelJogos {
 
             //Recuperar jogo que quero editar
             Jogo editarJogo = tabelaJogos.getSelectionModel().getSelectedItem();
+
+            if (editarJogo == null){
+
+                Alert alertaJogoNaoSelecionado = new Alert(Alert.AlertType.WARNING);
+                alertaJogoNaoSelecionado.setTitle("Exclusão de Jogo");
+                alertaJogoNaoSelecionado.setHeaderText("Para excluir o jogo você deve selecioná-lo na lista.");
+                alertaJogoNaoSelecionado.showAndWait();
+                return;
+            }
             TelaJogo telaJogo = new TelaJogo(editarJogo);
             telaJogo.criarTela(stage);
             tabelaJogos.setItems(repository.getJogos());
+
+
 
         });
 

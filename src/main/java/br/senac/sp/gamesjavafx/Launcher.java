@@ -13,7 +13,7 @@ public class Launcher {
 //        Jogo jogo = new Jogo(0,"testeTitulo","Testando");
 //        jogo.setEstudio("Estudio teste");
 //        jogo.setCategoria("Teste categoria");
-//        jogo.setPreco(99.99);
+//        jogo.setValor(99.99);
 //        jogo.setDataLancamento(LocalDate.now());
 //        jogo.setFinalizado(true);
 //
