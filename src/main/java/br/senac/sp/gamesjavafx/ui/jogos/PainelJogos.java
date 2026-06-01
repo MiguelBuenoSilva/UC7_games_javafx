@@ -94,9 +94,21 @@ public class PainelJogos {
 
         Button btnVisualizar = criarBotao("Visualizar", "/imagens/icons/binoculars.png");
         btnVisualizar.setOnAction(event -> {
+
             Jogo visualizarJogo = tabelaJogos.getSelectionModel().getSelectedItem();
+
+            if (visualizarJogo == null){
+                Alert alertaJogoNaoSelecionado = new Alert(Alert.AlertType.WARNING);
+                alertaJogoNaoSelecionado.setTitle("Visualização de Jogo");
+                alertaJogoNaoSelecionado.setHeaderText("Para visualizar um jogo você deve selecioná-lo na lista.");
+                alertaJogoNaoSelecionado.showAndWait();
+                return;
+            }
+
             TelaJogo telaJogo = new TelaJogo(visualizarJogo);
             telaJogo.criarTela(stage);
+
+
 
         });
 
@@ -109,11 +121,12 @@ public class PainelJogos {
             if (editarJogo == null){
 
                 Alert alertaJogoNaoSelecionado = new Alert(Alert.AlertType.WARNING);
-                alertaJogoNaoSelecionado.setTitle("Exclusão de Jogo");
-                alertaJogoNaoSelecionado.setHeaderText("Para excluir o jogo você deve selecioná-lo na lista.");
+                alertaJogoNaoSelecionado.setTitle("Edição de Jogo");
+                alertaJogoNaoSelecionado.setHeaderText("Para editar um jogo você deve selecioná-lo na lista.");
                 alertaJogoNaoSelecionado.showAndWait();
                 return;
             }
+
             TelaJogo telaJogo = new TelaJogo(editarJogo);
             telaJogo.criarTela(stage);
             tabelaJogos.setItems(repository.getJogos());
