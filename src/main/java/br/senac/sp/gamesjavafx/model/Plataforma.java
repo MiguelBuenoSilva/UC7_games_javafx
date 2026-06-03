@@ -2,7 +2,7 @@ package br.senac.sp.gamesjavafx.model;
 
 import java.time.LocalDate;
 
-public class Plataforma {
+public class Plataforma  {
     private int id;
     private String nome;
     private String fabricante;

@@ -1,5 +1,6 @@
 package br.senac.sp.gamesjavafx.ui.jogos;
 
+import br.senac.sp.gamesjavafx.data.repository.PlataformaRepository;
 import br.senac.sp.gamesjavafx.model.Plataforma;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class PainelPlataformas {
     private Stage stage;
@@ -53,75 +55,104 @@ public class PainelPlataformas {
         colunaDataLancamento.setCellValueFactory(new PropertyValueFactory<>("dataLancamento"));
         colunaDataLancamento.setPrefWidth(100);
 
-        tabelaPlataformas.getColumns().addAll(colunaId, colunaNome, colunaFabricante,colunaDataLancamento, colunaValor);
+        // Obter os dados que serão exibidos
+        PlataformaRepository repository = new PlataformaRepository();
 
+        tabelaPlataformas.getColumns().addAll(colunaId, colunaNome, colunaFabricante, colunaDataLancamento, colunaValor);
 
+        // Adicionando a lista de jogos na tabela
+        tabelaPlataformas.setItems(repository.getPlataformas());
 
         // Criar botões de ações
         HBox painelBotoes = new HBox(10);
 
         Button botaoAdicionar = criarBotao("Adicionar", "/imagens/icons/plus-add.png");
-//        TelaPlataforma telaPlataforma = new TelaPlataforma();
-//        telaPlataforma.criarTelaPlataforma(stage);
-//       // tabelaPlataformas.setItems(repository.getJogos());
-//
-//    });
+
+        botaoAdicionar.setOnAction(e -> {
+            TelaPlataforma telaPlataforma = new TelaPlataforma();
+            telaPlataforma.criarTelaPlataforma(stage);
+             tabelaPlataformas.setItems(repository.getPlataformas());
+        });
+
 
         Button btnVisualizar = criarBotao("Visualizar", "/imagens/icons/binoculars.png");
-//        btnVisualizar.setOnAction(event -> {
-//        Plataforma visualizarPlataforma = tabelaPlataformas.getSelectionModel().getSelectedItem();
-//        TelaPlataforma telaPlataforma = new TelaPlataforma(visualizarPlataforma);
-//        telaPlataforma.criarTelaPlataforma(stage);
-//
-//    });
+
+        btnVisualizar.setOnAction(event -> {
+
+            Plataforma visualizarPlataforma = tabelaPlataformas.getSelectionModel().getSelectedItem();
+
+            if (visualizarPlataforma == null){
+                Alert alertaJogoNaoSelecionado = new Alert(Alert.AlertType.WARNING);
+                alertaJogoNaoSelecionado.setTitle("Visualização de Plataforma");
+                alertaJogoNaoSelecionado.setHeaderText("Para visualizar um plataforma você deve selecioná-lo na lista.");
+                alertaJogoNaoSelecionado.showAndWait();
+                return;
+            }
+            TelaPlataforma telaPlataforma = new TelaPlataforma(visualizarPlataforma);
+            telaPlataforma.criarTelaPlataforma(stage);
+
+        });
 
 
         Button btnEditar = criarBotao("Editar", "/imagens/icons/pen.png");
-//              btnEditar.setOnAction(event -> {
-//
-//        //Recuperar jogo que quero editar
-//        Jogo editarJogo = tabelaJogos.getSelectionModel().getSelectedItem();
-//        TelaPlataforma telaPlataforma = new TelaPlataforma(editarPlataforma);
-//        telaPlataforma.criarTela(stage);
-//        tabelaPlataformas.setItems(repository.getJogos());
-//
-//    });
+
+        btnEditar.setOnAction(event -> {
+            Plataforma editarPlataforma = tabelaPlataformas.getSelectionModel().getSelectedItem();
+
+            //Recuperar plataforma que quero editar
+            if (editarPlataforma== null){
+
+                Alert alertaJogoNaoSelecionado = new Alert(Alert.AlertType.WARNING);
+                alertaJogoNaoSelecionado.setTitle("Edição de Plataforma");
+                alertaJogoNaoSelecionado.setHeaderText("Para editar um plataforma você deve selecioná-lo na lista.");
+                alertaJogoNaoSelecionado.showAndWait();
+                return;
+            }
+            TelaPlataforma telaPlataforma = new TelaPlataforma(editarPlataforma);
+            telaPlataforma.criarTelaPlataforma(stage);
+            tabelaPlataformas.setItems(repository.getPlataformas());
+
+        });
 
         Button btnExcluir = criarBotao("Excluir", "/imagens/icons/letter-x.png");
+//
+        Plataforma excluirPlataforma = tabelaPlataformas.getSelectionModel().getSelectedItem();
 
-//    Plataforma excluirPlataforma = tabelaJogos.getSelectionModel().getSelectedItem();
-//
-//            if (excluirPlataforma == null){
-//        Alert alertaJogoNaoSelecionado = new Alert(Alert.AlertType.WARNING);
-//        alertaJogoNaoSelecionado.setTitle("Exclusão de Plataforma");
-//        alertaJogoNaoSelecionado.setHeaderText("Para excluir uma plataforma você deve selecioná-lo na lista.");
-//        alertaJogoNaoSelecionado.showAndWait();
-//        return;
-//    }
-//
-//    Alert confirmaExclusao = new Alert(Alert.AlertType.CONFIRMATION);
-//            confirmaExclusao.setTitle("Exclusão de Plataforma");
-//            confirmaExclusao.setHeaderText("Você está prestes a excluir uma plataforma.");
-//            confirmaExclusao.setContentText("Tem certeza que deseja continuar?");
-//
-//    Optional<ButtonType> resposta = confirmaExclusao.showAndWait();
-//    ButtonType botaoSelecionado = resposta.get();
-//
-//            if (botaoSelecionado == ButtonType.OK) {
-//        repository.excluir(excluirPlataforma.getId());
-//        tabelaJogos.setItems(repository.getJogos());
-//    }
-//
-//});
+        btnExcluir.setOnAction(event -> {
+            if (excluirPlataforma == null) {
+                Alert alertaJogoNaoSelecionado = new Alert(Alert.AlertType.WARNING);
+                alertaJogoNaoSelecionado.setTitle("Exclusão de Plataforma");
+                alertaJogoNaoSelecionado.setHeaderText("Para excluir uma plataforma você deve selecioná-lo na lista.");
+                alertaJogoNaoSelecionado.showAndWait();
+                    return;
+            }
+                Alert confirmaExclusao = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmaExclusao.setTitle("Exclusão de Plataforma");
+                confirmaExclusao.setHeaderText("Você está prestes a excluir uma plataforma.");
+                confirmaExclusao.setContentText("Tem certeza que deseja continuar?");
+
+                Optional<ButtonType> resposta = confirmaExclusao.showAndWait();
+                ButtonType botaoSelecionado = resposta.get();
+
+                if (botaoSelecionado == ButtonType.OK) {
+                    repository.excluir(excluirPlataforma.getId());
+
+                    tabelaPlataformas.setItems(repository.getPlataformas());
+                }
+
+
+        });
+
+
         painelBotoes.setAlignment(Pos.BOTTOM_RIGHT);
-        painelBotoes.getChildren().addAll(botaoAdicionar, btnEditar,  btnVisualizar, btnExcluir);
+
+        painelBotoes.getChildren().addAll(botaoAdicionar, btnEditar, btnVisualizar, btnExcluir);
 
         //Adicionar o label no painel
         painelPlataformas.getChildren().addAll(lblTitulo, linha, tabelaPlataformas, painelBotoes);
 
         return painelPlataformas;
     }
-
 
 
     private Button criarBotao(String textoBotao, String urlImagem) {
@@ -139,5 +170,6 @@ public class PainelPlataformas {
         return button;
 
     }
-
 }
+
+

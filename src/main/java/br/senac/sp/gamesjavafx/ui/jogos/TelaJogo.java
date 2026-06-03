@@ -27,7 +27,7 @@ public class TelaJogo {
 
     private TextField tfId = new TextField();
     private TextField tfTitulo = new TextField();
-    private TextField tfValor = new TextField();
+    private TextField tfPreco = new TextField();
     private ComboBox<String> comboPlataforma = new ComboBox<>();
     private ComboBox<String> comboEstudio = new ComboBox<>();
     private ComboBox<String> comboCategoria = new ComboBox<>();
@@ -39,7 +39,7 @@ public class TelaJogo {
 
         tfId.setText(String.valueOf(jogo.getId()));
         tfTitulo.setText(jogo.getTitulo());
-        tfValor.setText(String.valueOf(jogo.getPreco()));
+        tfPreco.setText(String.valueOf(jogo.getPreco()));
         comboPlataforma.setValue(jogo.getPlataforma());
         comboEstudio.setValue(jogo.getEstudio());
         comboCategoria.setValue(jogo.getCategoria());
@@ -146,8 +146,8 @@ public class TelaJogo {
         Label lblCategoria = new Label("Categoria:");
         comboCategoria.setItems(categoria);
 
-        Label lblValor = new Label("Valor: ");
-        tfValor.setPromptText("Ex.9.99");
+        Label lblValor = new Label("Preco: ");
+        tfPreco.setPromptText("Ex.9.99");
 
         Label lblDatalancamento = new Label("Data de Lançamento: ");
         dpDataLacamento = new DatePicker(LocalDate.now());
@@ -171,7 +171,7 @@ public class TelaJogo {
         gridFormulario.add(comboCategoria, 1, 4);
 
         gridFormulario.add(lblValor, 0, 5);
-        gridFormulario.add(tfValor, 1, 5);
+        gridFormulario.add(tfPreco, 1, 5);
 
         gridFormulario.add(lblDatalancamento, 0, 6);
         gridFormulario.add(dpDataLacamento, 1, 6);
@@ -206,13 +206,13 @@ public class TelaJogo {
             jogo.setFinalizado(cbFinalizado.isSelected());
 
             try {
-                jogo.setPreco(Double.parseDouble(tfValor.getText().replace(",",".")));
+                jogo.setPreco(Double.parseDouble(tfPreco.getText().replace(",",".")));
             } catch (NumberFormatException error) {
                 Alert valorIncorreto = new Alert(Alert.AlertType.ERROR);
                 valorIncorreto.setTitle("Valor Incorreto");
                 valorIncorreto.setHeaderText("O valor digitado deve conter apenas números! \nUtilize ponto ou virgula como separador de decimal");
                 valorIncorreto.showAndWait();
-                tfValor.requestFocus();
+                tfPreco.requestFocus();
                 return;
             }
 
@@ -288,9 +288,9 @@ public class TelaJogo {
 
         tfTitulo.clear();
         comboPlataforma.setValue("");
-        tfValor.clear();
+        tfPreco.clear();
         comboEstudio.setValue("");
-        comboPlataforma.setValue("");
+//        comboPlataforma.setValue("");
         cbFinalizado.setSelected(false);
         dpDataLacamento.setValue(LocalDate.now());
         tfTitulo.requestFocus();
