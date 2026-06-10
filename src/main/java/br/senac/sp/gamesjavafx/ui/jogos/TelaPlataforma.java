@@ -141,12 +141,14 @@ public class TelaPlataforma {
 
         gridFormulario.add(lblFabricante, 0, 2);
         gridFormulario.add(tfFabricante,1,2);
+        gridFormulario.add(lblPlataforma, 0, 3);
+        gridFormulario.add(comboPlataforma, 1, 3);
 
-        gridFormulario.add(lblValor, 0, 3);
-        gridFormulario.add(tfValor, 1, 3);
+        gridFormulario.add(lblValor, 0, 4);
+        gridFormulario.add(tfValor, 1, 4);
 
-        gridFormulario.add(lblDatalancamento, 0, 4);
-        gridFormulario.add(dpDataLacamento, 1, 4);
+        gridFormulario.add(lblDatalancamento, 0, 5);
+        gridFormulario.add(dpDataLacamento, 1, 5);
 
 
         formulario.getChildren().add(gridFormulario);
@@ -170,6 +172,7 @@ public class TelaPlataforma {
             Plataforma plataforma = new Plataforma();
             plataforma.setNome(tfNome.getText());
             plataforma.setFabricante(tfFabricante.getText());
+//            plataforma.setPlataforma(comboPlataforma.getValue());
             plataforma.setValor(Double.parseDouble(tfValor.getText()));
             plataforma.setDataLancamento(dpDataLacamento.getValue());
 

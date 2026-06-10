@@ -27,7 +27,7 @@ public class JogoRepository {
                 int id = rs.getInt("id");
                 String titulo = rs.getString("titulo");
                 String categoria = rs.getString("categoria");
-                String plataforma = rs.getString("plataforma");
+                int plataforma = rs.getInt("plataforma");
                 String estudio = rs.getString("estudio");
                 double preco = rs.getDouble("preco");
                 LocalDate dataLancamento = LocalDate.parse(rs.getString("data_lancamento"));
@@ -69,7 +69,7 @@ public class JogoRepository {
         try {
             PreparedStatement stm = ConexaoSQLite.getConexao().prepareStatement(sql);
             stm.setString(1, jogo.getTitulo());
-            stm.setString(2, jogo.getPlataforma());
+            stm.setInt(2, jogo.getPlataforma());
             stm.setString(3, jogo.getEstudio());
             stm.setString(4, jogo.getCategoria());
             stm.setDouble(5, jogo.getPreco());
@@ -133,7 +133,7 @@ public class JogoRepository {
         try {
             PreparedStatement stm = ConexaoSQLite.getConexao().prepareStatement(sql);
             stm.setString(1, jogo.getTitulo());
-            stm.setString(2, jogo.getPlataforma());
+            stm.setInt(2, jogo.getPlataforma());
             stm.setString(3, jogo.getEstudio());
             stm.setString(4, jogo.getCategoria());
             stm.setDouble(5, jogo.getPreco());

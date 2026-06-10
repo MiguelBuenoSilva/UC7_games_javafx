@@ -51,6 +51,9 @@ public class Plataforma  {
         this.valor = valor;
     }
 
-
+    @Override
+    public String toString() {
+        return this.nome;
+    }
 
 }

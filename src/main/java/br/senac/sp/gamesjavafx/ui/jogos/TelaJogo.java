@@ -1,7 +1,9 @@
 package br.senac.sp.gamesjavafx.ui.jogos;
 
 import br.senac.sp.gamesjavafx.data.repository.JogoRepository;
+import br.senac.sp.gamesjavafx.data.repository.PlataformaRepository;
 import br.senac.sp.gamesjavafx.model.Jogo;
+import br.senac.sp.gamesjavafx.model.Plataforma;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -28,7 +30,7 @@ public class TelaJogo {
     private TextField tfId = new TextField();
     private TextField tfTitulo = new TextField();
     private TextField tfPreco = new TextField();
-    private ComboBox<String> comboPlataforma = new ComboBox<>();
+    private ComboBox<Plataforma> comboPlataforma = new ComboBox<>();
     private ComboBox<String> comboEstudio = new ComboBox<>();
     private ComboBox<String> comboCategoria = new ComboBox<>();
     private DatePicker dpDataLacamento = new DatePicker();
@@ -36,11 +38,12 @@ public class TelaJogo {
 
 
     public TelaJogo(Jogo jogo) {
+        PlataformaRepository plataformaRepository = new PlataformaRepository();
 
         tfId.setText(String.valueOf(jogo.getId()));
         tfTitulo.setText(jogo.getTitulo());
         tfPreco.setText(String.valueOf(jogo.getPreco()));
-        comboPlataforma.setValue(jogo.getPlataforma());
+        comboPlataforma.setItems(plataformaRepository.getPlataformas());
         comboEstudio.setValue(jogo.getEstudio());
         comboCategoria.setValue(jogo.getCategoria());
         dpDataLacamento.setValue(jogo.getDataLancamento());
@@ -70,8 +73,7 @@ public class TelaJogo {
 
         Scene cena = new Scene(raiz, 500, 700);
 
-//        stage.setHeight(400);
-//        stage.setWidth(500);
+
         stage.setResizable(false);
         stage.setScene(cena);
         stage.showAndWait();
@@ -102,11 +104,11 @@ public class TelaJogo {
     }
 
     private VBox criarFormulario() {
-        ObservableList<String> plataformas = FXCollections.observableArrayList(
-                "PlayStation 1", "PlayStation 2", "PlayStation 3", "PlayStation 4", "PlayStation 5", "Xbox 360",
-                "Xbox One", "Xbox Series X", "Xbox Series S", "Super Nintendo", "Nintendo 64", "Nintendo Switch",
-                "Master System", "Mega Drive", "PC"
-        );
+
+        PlataformaRepository plataformaRepository = new PlataformaRepository();
+
+        ObservableList<Plataforma> plataformas = plataformaRepository.getPlataformas();
+
 
         ObservableList<String> estudios = FXCollections.observableArrayList(
                 "Rockstar Games", "Naughty Dog", "Santa Monica Studio", "Insomniac Games", "Ubisoft", "Electronic Arts", "Activision", "Bethesda Game Studios",
@@ -199,7 +201,7 @@ public class TelaJogo {
         btnSalvar.setOnAction(evento -> {
             Jogo jogo = new Jogo();
             jogo.setTitulo(tfTitulo.getText());
-            jogo.setPlataforma(comboPlataforma.getValue());
+            jogo.setPlataforma(comboPlataforma.getValue().getId());
             jogo.setEstudio(comboEstudio.getValue());
             jogo.setDataLancamento(dpDataLacamento.getValue());
             jogo.setCategoria(comboCategoria.getValue());
@@ -287,10 +289,9 @@ public class TelaJogo {
     private void limparCampos() {
 
         tfTitulo.clear();
-        comboPlataforma.setValue("");
+        comboPlataforma.getSelectionModel().clearSelection();
         tfPreco.clear();
         comboEstudio.setValue("");
-//        comboPlataforma.setValue("");
         cbFinalizado.setSelected(false);
         dpDataLacamento.setValue(LocalDate.now());
         tfTitulo.requestFocus();
