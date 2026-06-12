@@ -1,7 +1,9 @@
 package br.senac.sp.gamesjavafx.ui.jogos;
 
+import br.senac.sp.gamesjavafx.data.repository.EstudioRepository;
 import br.senac.sp.gamesjavafx.data.repository.JogoRepository;
 import br.senac.sp.gamesjavafx.data.repository.PlataformaRepository;
+import br.senac.sp.gamesjavafx.model.Estudio;
 import br.senac.sp.gamesjavafx.model.Jogo;
 import br.senac.sp.gamesjavafx.model.Plataforma;
 import javafx.collections.FXCollections;
@@ -38,13 +40,22 @@ public class TelaJogo {
 
 
     public TelaJogo(Jogo jogo) {
-        PlataformaRepository plataformaRepository = new PlataformaRepository();
+
 
         tfId.setText(String.valueOf(jogo.getId()));
         tfTitulo.setText(jogo.getTitulo());
         tfPreco.setText(String.valueOf(jogo.getPreco()));
+
+        //Carrega os itens do banco para permitir a pré-seleção correta
+        PlataformaRepository plataformaRepository = new PlataformaRepository();
+
+        //Pré-seleciona a plataforma pelo ID gravado no jogo
         comboPlataforma.setItems(plataformaRepository.getPlataformas());
-        comboEstudio.setValue(jogo.getEstudio());
+
+//        EstudioRepository estudioRepository = new EstudioRepository();
+//        comboEstudio.setItems(estudioRepository.getEstudios();
+
+
         comboCategoria.setValue(jogo.getCategoria());
         dpDataLacamento.setValue(jogo.getDataLancamento());
         cbFinalizado.setSelected(jogo.isFinalizado());
@@ -109,6 +120,9 @@ public class TelaJogo {
 
         ObservableList<Plataforma> plataformas = plataformaRepository.getPlataformas();
 
+        //EstudioRepository estudioRepository =  new EstudioRepository();
+
+       // ObservableList<Estudio> estudios = estudioRepository.getEstudios();
 
         ObservableList<String> estudios = FXCollections.observableArrayList(
                 "Rockstar Games", "Naughty Dog", "Santa Monica Studio", "Insomniac Games", "Ubisoft", "Electronic Arts", "Activision", "Bethesda Game Studios",
@@ -143,7 +157,7 @@ public class TelaJogo {
 
 
         Label lblEstudio = new Label("Estudios:");
-        comboEstudio.setItems(estudios);
+       comboEstudio.setItems(estudios);
 
         Label lblCategoria = new Label("Categoria:");
         comboCategoria.setItems(categoria);
@@ -201,8 +215,8 @@ public class TelaJogo {
         btnSalvar.setOnAction(evento -> {
             Jogo jogo = new Jogo();
             jogo.setTitulo(tfTitulo.getText());
-            jogo.setPlataforma(comboPlataforma.getValue().getId());
-            jogo.setEstudio(comboEstudio.getValue());
+            //jogo.setPlataforma(comboPlataforma.getValue());
+            //jogo.setEstudio(comboEstudio.getValue());
             jogo.setDataLancamento(dpDataLacamento.getValue());
             jogo.setCategoria(comboCategoria.getValue());
             jogo.setFinalizado(cbFinalizado.isSelected());
@@ -254,25 +268,6 @@ public class TelaJogo {
 
 
             }
-
-//            JOptionPane.showMessageDialog(
-//                    null,
-//                    "Jogo cadastrado com sucesso!",
-//                    "Erro",
-//                    JOptionPane.ERROR_MESSAGE
-//            );
-
-//            int resposta = JOptionPane.showConfirmDialog(
-//                    null,
-//                    "Jogo cadastrado com sucesso!\nDeseja cadastrar outro jogo?",
-//                    "Cadastro",
-//                    JOptionPane.YES_NO_OPTION
-//
-//            );
-//
-//            if (resposta != 0) {
-//                stage.close();
-//            }
         });
 
         Button btnCancelar = new Button();
@@ -291,7 +286,7 @@ public class TelaJogo {
         tfTitulo.clear();
         comboPlataforma.getSelectionModel().clearSelection();
         tfPreco.clear();
-        comboEstudio.setValue("");
+        comboEstudio.getSelectionModel().clearSelection();
         cbFinalizado.setSelected(false);
         dpDataLacamento.setValue(LocalDate.now());
         tfTitulo.requestFocus();

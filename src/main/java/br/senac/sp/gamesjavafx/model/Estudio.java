@@ -49,4 +49,9 @@ public class Estudio {
     public void setNomeEstudio(String nomeEstudio) {
         this.nomeEstudio = nomeEstudio;
     }
+
+    @Override
+    public String toString() {
+        return this.nomeEstudio;
+    }
 }

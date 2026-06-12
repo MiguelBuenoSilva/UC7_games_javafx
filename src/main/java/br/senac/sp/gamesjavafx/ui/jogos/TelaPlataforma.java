@@ -172,7 +172,6 @@ public class TelaPlataforma {
             Plataforma plataforma = new Plataforma();
             plataforma.setNome(tfNome.getText());
             plataforma.setFabricante(tfFabricante.getText());
-//            plataforma.setPlataforma(comboPlataforma.getValue());
             plataforma.setValor(Double.parseDouble(tfValor.getText()));
             plataforma.setDataLancamento(dpDataLacamento.getValue());
 

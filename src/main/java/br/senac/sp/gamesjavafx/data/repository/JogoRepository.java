@@ -14,7 +14,13 @@ public class JogoRepository {
 
     public ObservableList<Jogo> getJogos() {
 
-        String sql = "SELECT * FROM  tb_games";
+        String sql = "SELECT g.id, g.titulo ,g.plataforma,p.nome AS nome_plataforma,g.categoria," +
+                "g.preco, g.data_lancamento,g.finalizado,p.plataforma_id, e.nome_estudio" +
+                "        FROM tb_games AS g \n" +
+                "        INNER JOIN tb_plataformas AS p " +
+                "ON g.plataforma = p.plataforma_id " +
+                " INNER JOIN tb_estudios AS e  " +
+                " ON g.estudio = e.estudio_id";
 
         ObservableList<Jogo> listaJogos = FXCollections.observableArrayList();
 
@@ -27,8 +33,8 @@ public class JogoRepository {
                 int id = rs.getInt("id");
                 String titulo = rs.getString("titulo");
                 String categoria = rs.getString("categoria");
-                int plataforma = rs.getInt("plataforma");
-                String estudio = rs.getString("estudio");
+                String plataforma = rs.getString("nome_plataforma");
+                String estudio = rs.getString("nome_estudio");
                 double preco = rs.getDouble("preco");
                 LocalDate dataLancamento = LocalDate.parse(rs.getString("data_lancamento"));
                 boolean isFinalizado = rs.getInt("finalizado") == 1 ? true : false;
@@ -69,7 +75,7 @@ public class JogoRepository {
         try {
             PreparedStatement stm = ConexaoSQLite.getConexao().prepareStatement(sql);
             stm.setString(1, jogo.getTitulo());
-            stm.setInt(2, jogo.getPlataforma());
+            stm.setString(2, jogo.getPlataforma());
             stm.setString(3, jogo.getEstudio());
             stm.setString(4, jogo.getCategoria());
             stm.setDouble(5, jogo.getPreco());
@@ -133,7 +139,7 @@ public class JogoRepository {
         try {
             PreparedStatement stm = ConexaoSQLite.getConexao().prepareStatement(sql);
             stm.setString(1, jogo.getTitulo());
-            stm.setInt(2, jogo.getPlataforma());
+            stm.setString(2, jogo.getPlataforma());
             stm.setString(3, jogo.getEstudio());
             stm.setString(4, jogo.getCategoria());
             stm.setDouble(5, jogo.getPreco());

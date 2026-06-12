@@ -76,13 +76,15 @@ public class PainelJogos {
         JogoRepository repository = new JogoRepository();
 
         // Adicionar as colunas na tabela ANTES de setar os itens (boa prática)
-        tabelaJogos.getColumns().addAll(colunaId, colunaTitulo, colunaPlataforma, colunaCategoria, colunaEstudio, colunaPreco, colunaDataLancamento, colunaFinalizado);
+        tabelaJogos.getColumns().addAll(colunaId, colunaTitulo, colunaPlataforma, colunaCategoria,
+                colunaEstudio, colunaPreco, colunaDataLancamento, colunaFinalizado);
 
         // Adicionando a lista de jogos na tabela
         tabelaJogos.setItems(repository.getJogos());
 
         // Criar botões de ações
         HBox painelBotoes = new HBox(10);
+
 
         Button botaoAdicionar = criarBotao("Adicionar", "/imagens/icons/plus-add.png");
         botaoAdicionar.setOnAction(e -> {

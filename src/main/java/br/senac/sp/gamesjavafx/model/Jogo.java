@@ -7,14 +7,14 @@ public class Jogo {
     //Propriedades de uma Classe
     private int id;
     private String titulo;
-    private int plataforma;
+    private String plataforma;
     private String categoria;
     private String estudio;
     private double preco;
     private LocalDate dataLancamento;
     private boolean finalizado;
 
-        public  Jogo(int id, String titulo, int plataforma){
+        public  Jogo(int id, String titulo, String plataforma){
             this.id = id;
             this.titulo = titulo;
             this.plataforma = plataforma;
@@ -41,11 +41,11 @@ public class Jogo {
         this.titulo = titulo;
     }
 
-    public int getPlataforma() {
+    public String getPlataforma() {
         return plataforma;
     }
 
-    public void setPlataforma(int plataforma) {
+    public void setPlataforma(String plataforma) {
         this.plataforma = plataforma;
     }
 
