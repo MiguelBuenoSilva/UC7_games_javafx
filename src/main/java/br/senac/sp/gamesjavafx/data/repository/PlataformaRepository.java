@@ -41,7 +41,7 @@ public class PlataformaRepository {
 
             }
             ConexaoSQLite.fecharConexao();
-          return listaPlataformas;
+            return listaPlataformas;
 
         } catch (SQLException e) {
             System.out.println("Ocorreu um erro na leitura dos dados.");
@@ -52,9 +52,9 @@ public class PlataformaRepository {
 
     }
     public void salvar(Plataforma plataforma) {
-        //Instrução SQL para cadastrar um novo jogo no banco de dados
+        //Instrução SQL para cadastrar uma nova plataforma no banco de dados
         String sql = "INSERT INTO tb_plataformas (nome, fabricante, data_lacamento, valor" +")" +
-                "VALUES(?,?,?,?,?,?,?);";//Cada ponto de interrogação é o valor de cada campo á ser preenchido
+                "VALUES(?,?,?,?);";//Cada ponto de interrogação é o valor de cada campo á ser preenchido
 
         //Preparar a instrução SQL para ser enviada para o banco atráves
         //de uma conexão
@@ -68,6 +68,7 @@ public class PlataformaRepository {
 
             stm.executeUpdate();
             ConexaoSQLite.fecharConexao();
+
         } catch (SQLException erro) {
             System.out.println("Ocorreu um erro na gravação.");
             erro.printStackTrace();
@@ -75,15 +76,15 @@ public class PlataformaRepository {
 
     }
     // Contar a quantidade de jogos gravados
-    public int getTotalJogos(){
+    public int getTotalplataformas(){
         String sql = "SELECT COUNT(id) as total_plataformas FROM tb_plataformas";
         try {
             PreparedStatement stm =ConexaoSQLite.getConexao().prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             rs.next();
-            int total = rs.getInt("total_plataformas");
+            int totalPlataformas = rs.getInt("total_plataformas");
             ConexaoSQLite.fecharConexao();
-            return total;
+            return totalPlataformas;
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;

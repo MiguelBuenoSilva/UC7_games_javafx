@@ -58,7 +58,8 @@ public class PainelPlataformas {
         // Obter os dados que serão exibidos
         PlataformaRepository repository = new PlataformaRepository();
 
-        tabelaPlataformas.getColumns().addAll(colunaId, colunaNome, colunaFabricante, colunaDataLancamento, colunaValor);
+        tabelaPlataformas.getColumns().addAll(colunaId, colunaNome, colunaFabricante,
+                colunaDataLancamento, colunaValor);
 
         // Adicionando a lista de jogos na tabela
         tabelaPlataformas.setItems(repository.getPlataformas());
