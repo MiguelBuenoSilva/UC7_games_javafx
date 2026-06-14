@@ -141,6 +141,7 @@ public class TelaPlataforma {
 
         gridFormulario.add(lblFabricante, 0, 2);
         gridFormulario.add(tfFabricante,1,2);
+
         gridFormulario.add(lblPlataforma, 0, 3);
         gridFormulario.add(comboPlataforma, 1, 3);
 
@@ -166,7 +167,7 @@ public class TelaPlataforma {
         Image imgSalvar = new Image(getClass().getResourceAsStream("/imagens/icons/save.png"));
         ImageView ivSalvar = new ImageView(imgSalvar);
         btnSalvar.setGraphic(ivSalvar);
-        btnSalvar.setTooltip(new Tooltip("Salvar dados do jogo"));
+        btnSalvar.setTooltip(new Tooltip("Salvar dados da plataforma"));
         btnSalvar.setOnAction(evento -> {
 
             Plataforma plataforma = new Plataforma();

@@ -1,10 +1,24 @@
 package br.senac.sp.gamesjavafx.ui.jogos;
 
 
+import br.senac.sp.gamesjavafx.data.repository.EstudioRepository;
 import br.senac.sp.gamesjavafx.model.Estudio;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 public class TelaEstudio {
 
@@ -13,14 +27,196 @@ public class TelaEstudio {
     private  TextField tfNomeFundador = new TextField();
     private ComboBox<Estudio> comboEstudio = new ComboBox<>();
     private DatePicker dpAnoFundacao = new DatePicker();
+    private TextField tfPaisOrigem = new TextField();
 
-    TelaEstudio(Estudio estudio){
+   public TelaEstudio(Estudio estudio){
         tfId.setText(String.valueOf(estudio.getId()));
         tfNomeEstudio.setText(estudio.getNomeEstudio());
         tfNomeFundador.setText(estudio.getNomeFundador());
         dpAnoFundacao.setValue(estudio.getAnoFundacao());
+        tfPaisOrigem.setText(estudio.getPaisOrigem());
     }
 
+    public TelaEstudio (){
 
+    }
+
+ public void criarTelaEstudio(Stage stagePai){
+       Stage stage = new Stage();
+       stage.initOwner(stagePai);
+       stage.initModality(Modality.APPLICATION_MODAL);
+
+       stage.setMaxWidth(500);
+       stage.setMaxHeight(500);
+       stage.setTitle("Cadastro de Estudios");
+
+     BorderPane raiz = new BorderPane();
+     raiz.setTop(criarPainelTitulo());
+     raiz.setCenter(criarFormularioEstudio());
+     raiz.setBottom(criarPainelBotoes(stage));
+
+     Scene cena = new Scene(raiz, 500, 700);
+
+
+     stage.setResizable(false);
+     stage.setScene(cena);
+     stage.showAndWait();
+ }
+    public HBox criarPainelTitulo() {
+
+        HBox painelTitulo = new HBox();
+
+        painelTitulo.setPadding(new Insets(20, 0, 20, 20));
+        painelTitulo.setStyle("-fx-background-color:#2e2b68; ");
+        painelTitulo.setAlignment(Pos.CENTER_LEFT);
+
+        Image image = new Image(getClass().getResourceAsStream("/imagens/icons/binoculars2.png"));
+        ImageView imageView = new ImageView(image);
+
+        imageView.setFitWidth(40);
+        imageView.setFitHeight(40);
+
+        Label lblTitulo = new Label("Cadastro de Estudios");
+        painelTitulo.getChildren().addAll(imageView, lblTitulo);
+        lblTitulo.setStyle("-fx-font-size: 28; " +
+                "-fx-font-weight: bold; " +
+                "-fx-text-fill: #ffffff;");
+
+        return painelTitulo;
+    }
+
+    private VBox criarFormularioEstudio(){
+
+        EstudioRepository estudioRepository = new EstudioRepository();
+
+        ObservableList<Estudio> estudios = estudioRepository.getEstudios();
+
+        VBox formulario = new VBox();
+        formulario.setPadding(new Insets(20));
+
+        GridPane gridFormulario = new GridPane(5,5);
+        gridFormulario.setGridLinesVisible(false);
+        gridFormulario.setPadding(new Insets(20));
+        gridFormulario.setStyle("-fx-border-width: 2; -fx-border-color: #2e2b68");
+
+        //Criar os componentes que seram importados no grid
+        Label lblEstudioId = new Label("ID:");
+        tfId.setDisable(true);
+
+        Label lblFundador = new Label("Fundador: ");
+        tfNomeFundador.setPromptText("Ex: Sam Houser e Dan Houser");
+
+        Label lblNomeEstudio = new Label("Nome do Estudio:");
+
+        Label lblEstudio = new Label("Estudios: ");
+        comboEstudio.setItems(estudios);
+
+        Label lblPaisOrigem = new Label("País de Origem: ");
+        tfPaisOrigem.setPromptText("Ex: Bulgária");
+
+        Label lblAnoFundacao = new Label("Ano de Fundação: ");
+        dpAnoFundacao = new DatePicker(LocalDate.now());
+
+        //Adicionar os componentes no GRID
+
+        gridFormulario.add(lblEstudioId,0,0);
+        gridFormulario.add(tfId,1,0);
+
+        gridFormulario.add(lblNomeEstudio,0,1);
+        gridFormulario.add(tfNomeEstudio,1,1);
+
+        gridFormulario.add(lblFundador,0,2);
+        gridFormulario.add(tfNomeFundador,1,2);
+
+        gridFormulario.add(lblEstudio,0,3);
+        gridFormulario.add(comboEstudio,1,3);
+
+        gridFormulario.add(lblPaisOrigem,0,4);
+        gridFormulario.add(tfPaisOrigem,1,4);
+
+        gridFormulario.add(lblAnoFundacao,0,5);
+        gridFormulario.add(dpAnoFundacao,1,5);
+
+        formulario.getChildren().add(gridFormulario);
+
+        return formulario;
+
+    }
+    private HBox criarPainelBotoes(Stage stage) {
+        HBox painelBotoes = new HBox(10);
+        painelBotoes.setStyle("-fx-background-color: #832929");
+        painelBotoes.setPadding(new Insets(10));
+        painelBotoes.setAlignment(Pos.BOTTOM_RIGHT);
+
+        Button btnSalvar = new Button();
+        Image imgSalvar = new Image(getClass().getResourceAsStream("/imagens/icons/save.png"));
+        ImageView ivSalvar = new ImageView(imgSalvar);
+        btnSalvar.setGraphic(ivSalvar);
+        btnSalvar.setTooltip(new Tooltip("Salvar dados do jogo"));
+    btnSalvar.setOnAction(event -> {
+
+
+        Estudio estudio = new Estudio();
+        estudio.setNomeEstudio(tfNomeEstudio.getText());
+        estudio.setNomeFundador(tfNomeFundador.getText());
+        estudio.setAnoFundacao(dpAnoFundacao.getValue());
+        estudio.setPaisOrigem(tfPaisOrigem.getText());
+
+
+        //Criar o repositorio para enviar o plataforma
+        EstudioRepository repository = new EstudioRepository();
+
+        if (tfId.getText().equals("")) {
+            repository.salvar(estudio);
+
+            //Mostra a mensagem do pós-salvar
+            Alert mensagemSalvar = new Alert(Alert.AlertType.CONFIRMATION);
+            mensagemSalvar.setTitle("Cadastro de plataforma");
+            mensagemSalvar.setHeaderText("O plataforma gravado com sucesso!");
+            mensagemSalvar.setContentText("Deseja cadastrar outro plataforma?");
+
+            Optional<ButtonType> escolha = mensagemSalvar.showAndWait();
+
+            if (escolha.get() == ButtonType.OK) {
+                limparCampos();
+            } else {
+                stage.close();
+            }
+
+
+        } else {
+            estudio.setId(Integer.parseInt(tfId.getText()));
+            repository.editar(estudio);
+
+            //Mostra mensagem a pós-editar
+            Alert mensagemEditar = new Alert(Alert.AlertType.CONFIRMATION);
+            mensagemEditar.setTitle("Atualização de estudio");
+            mensagemEditar.setHeaderText("O estudio foi atualizado com sucesso!");
+
+            mensagemEditar.showAndWait();
+            stage.close();
+
+
+        }
+    });
+
+        Button btnCancelar = new Button();
+        Image imgCancelar = new Image(getClass().getResourceAsStream("/imagens/icons/cancel.png"));
+        ImageView ivCancelar = new ImageView(imgCancelar);
+        btnCancelar.setGraphic(ivCancelar);
+        btnCancelar.setTooltip(new Tooltip("Cancelar dados do jogo"));
+
+        painelBotoes.getChildren().addAll(btnSalvar, btnCancelar);
+
+        return painelBotoes;
+    }
+    private void limparCampos() {
+
+        tfNomeEstudio.clear();
+        tfNomeFundador.clear();
+        tfPaisOrigem.clear();
+        dpAnoFundacao.setValue(LocalDate.now());
+        tfNomeFundador.requestFocus();
+    }
 
 }

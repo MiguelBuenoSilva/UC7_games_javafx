@@ -33,7 +33,7 @@ public class TelaJogo {
     private TextField tfTitulo = new TextField();
     private TextField tfPreco = new TextField();
     private ComboBox<Plataforma> comboPlataforma = new ComboBox<>();
-    private ComboBox<String> comboEstudio = new ComboBox<>();
+    private ComboBox<Estudio> comboEstudio = new ComboBox<>();
     private ComboBox<String> comboCategoria = new ComboBox<>();
     private DatePicker dpDataLacamento = new DatePicker();
     private CheckBox cbFinalizado = new CheckBox("Finalizado");
@@ -120,15 +120,15 @@ public class TelaJogo {
 
         ObservableList<Plataforma> plataformas = plataformaRepository.getPlataformas();
 
-        //EstudioRepository estudioRepository =  new EstudioRepository();
+        EstudioRepository estudioRepository =  new EstudioRepository();
 
-       // ObservableList<Estudio> estudios = estudioRepository.getEstudios();
+       ObservableList<Estudio> estudios = estudioRepository.getEstudios();
 
-        ObservableList<String> estudios = FXCollections.observableArrayList(
-                "Rockstar Games", "Naughty Dog", "Santa Monica Studio", "Insomniac Games", "Ubisoft", "Electronic Arts", "Activision", "Bethesda Game Studios",
-                "CD Projekt Red", "Square Enix", "Capcom", "Konami", "Bandai Namco", "343 Industries", "The Coalition", "Guerrilla Games", "FromSoftware",
-                "Epic Games", "Valve", "Nintendo"
-        );
+//        ObservableList<String> estudios = FXCollections.observableArrayList(
+//                "Rockstar Games", "Naughty Dog", "Santa Monica Studio", "Insomniac Games", "Ubisoft", "Electronic Arts", "Activision", "Bethesda Game Studios",
+//                "CD Projekt Red", "Square Enix", "Capcom", "Konami", "BandaiNamco", "343 Industries", "The Coalition", "Guerrilla Games", "FromSoftware",
+//                "Epic Games", "Valve", "Nintendo"
+//        );
 
         ObservableList<String> categoria = FXCollections.observableArrayList(
                 "Ação", "Aventura", "RPG", "FPS", "Estratégia", "Simulação", "Esporte",

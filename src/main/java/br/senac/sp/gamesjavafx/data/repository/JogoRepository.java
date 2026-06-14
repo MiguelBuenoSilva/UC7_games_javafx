@@ -16,9 +16,9 @@ public class JogoRepository {
 
         String sql = "SELECT g.id, g.titulo ,g.plataforma,p.nome AS nome_plataforma,g.categoria," +
                 "g.preco, g.data_lancamento,g.finalizado,p.plataforma_id, e.nome_estudio" +
-                "        FROM tb_games AS g \n" +
+                "        FROM tb_games AS g " +
                 "        INNER JOIN tb_plataformas AS p " +
-                "ON g.plataforma = p.plataforma_id " +
+                "  ON g.plataforma = p.plataforma_id " +
                 " INNER JOIN tb_estudios AS e  " +
                 " ON g.estudio = e.estudio_id";
 
