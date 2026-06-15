@@ -37,23 +37,23 @@ public class PainelEstudios {
 
         //Criar colunas na tabela Estudios
         TableColumn<Estudio, Integer> colunaEstudio_Id = new TableColumn<>("ESTUDIO_ID");
-        colunaEstudio_Id.setCellValueFactory(new PropertyValueFactory<>("estudio_id"));
+        colunaEstudio_Id.setCellValueFactory(new PropertyValueFactory<>("id"));
         colunaEstudio_Id.setPrefWidth(100);
 
         TableColumn<Estudio, String> colunaNomeFundador = new TableColumn<>("NOME_FUNDADOR");
-        colunaNomeFundador.setCellValueFactory(new PropertyValueFactory<>("nome_fundador"));
+        colunaNomeFundador.setCellValueFactory(new PropertyValueFactory<>("nomeFundador"));
         colunaNomeFundador.setPrefWidth(100);
 
         TableColumn<Estudio, String> colunaNomeEstudio = new TableColumn<>("NOME_ESTUDIO");
-        colunaNomeEstudio.setCellValueFactory(new PropertyValueFactory<>("nome_estudio"));
+        colunaNomeEstudio.setCellValueFactory(new PropertyValueFactory<>("nomeEstudio"));
         colunaNomeEstudio.setPrefWidth(100);
 
         TableColumn<Estudio, LocalDate> colunaAnoFundacao = new TableColumn<>("ANO_FUNDAÇÃO");
-        colunaAnoFundacao.setCellValueFactory(new PropertyValueFactory<>("ano_fundacao"));
+        colunaAnoFundacao.setCellValueFactory(new PropertyValueFactory<>("anoFundacao"));
         colunaAnoFundacao.setPrefWidth(100);
 
         TableColumn<Estudio, String> colunaPaisOrigem = new TableColumn<>("PAÍS_ORIGEM");
-        colunaPaisOrigem.setCellValueFactory(new PropertyValueFactory<>("pais_origem"));
+        colunaPaisOrigem.setCellValueFactory(new PropertyValueFactory<>("paisOrigem"));
         colunaPaisOrigem.setPrefWidth(50);
 
 
