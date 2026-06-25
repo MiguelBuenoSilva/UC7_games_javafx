@@ -91,6 +91,7 @@ public class PainelJogos {
             TelaJogo telaJogo = new TelaJogo();
             telaJogo.criarTela(stage);
             tabelaJogos.setItems(repository.getJogos());
+            tabelaJogos.refresh();
 
         });
 

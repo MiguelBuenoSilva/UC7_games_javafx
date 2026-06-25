@@ -215,8 +215,8 @@ public class TelaJogo {
         btnSalvar.setOnAction(evento -> {
             Jogo jogo = new Jogo();
             jogo.setTitulo(tfTitulo.getText());
-            //jogo.setPlataforma(comboPlataforma.getValue());
-            //jogo.setEstudio(comboEstudio.getValue());
+            jogo.setPlataforma(String.valueOf(comboPlataforma.getValue().getId()));
+            jogo.setEstudio(String.valueOf(comboEstudio.getValue().getId()));
             jogo.setDataLancamento(dpDataLacamento.getValue());
             jogo.setCategoria(comboCategoria.getValue());
             jogo.setFinalizado(cbFinalizado.isSelected());
